@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'vitals.apps.VitalsConfig',
-    'accounts'
+    'accounts',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [

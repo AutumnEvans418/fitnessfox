@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Vitals{% endblock %}
+
+{% block content %}
+
+<h1>Vitals</h1>
+<a class="btn btn-primary" href="{% url 'vitals:create' %}">Record Vital</a>
+
+{% include "bootstrap_pagination.html" with page_obj=page_obj %}
+<ul>
+    {% for vital in object_list %}
+        <li>{{vital.created}} {{vital.get_type_display}} {{vital.value}}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

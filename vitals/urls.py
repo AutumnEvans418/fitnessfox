@@ -2,6 +2,10 @@ from django.urls import path
 
 from . import views
 
+app_name = 'vitals'
+
+
 urlpatterns = [
-    path('', views.VitalIndexView.as_view())
+    path('', views.VitalIndexView.as_view(), name='index'),
+    path('create/', views.VitalCreateView.as_view(), name='create')
 ]

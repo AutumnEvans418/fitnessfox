@@ -1,6 +1,8 @@
 from django.db import models
 from model_utils.models import TimeStampedModel as TSModel
 from django.contrib.auth.models import User
+from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 class Vital(TSModel):
@@ -17,7 +19,7 @@ class Vital(TSModel):
         (DIASTOLIC, "Diastolic"),
         (BPM, "Bpm")
     ]
-    
+    date = models.DateTimeField(blank=False, null=False, default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     type = models.IntegerField(choices=VITAL_CHOICES, blank=False, null=False)
     value = models.FloatField(null=False, blank=False)

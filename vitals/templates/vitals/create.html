@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% load bootstrap5 %}
+
+
+{% block title %}Vitals{% endblock %}
+{% block content %}
+
+    <form method="post"> 
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input class="btn btn-primary" type="submit" value="Save">
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+    </form>
+
+{% endblock %}
