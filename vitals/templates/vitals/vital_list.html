@@ -43,6 +43,7 @@
         let canvas = document.createElement('canvas');
         canvas.width = 500;
         canvas.height = 500;
+        canvas.style.width = "50%";
 
         charts.appendChild(canvas);
         let ctx = canvas.getContext("2d");
@@ -60,7 +61,12 @@
                         label: label,
                         backgroundColor: "#79AEC8",
                         borderColor: "#417690",
-                        data: values
+                        data: values,
+                        trendlineLinear: {
+                            style: "rgb(43 ,66 ,255, 0.3)",
+                            lineStyle: "dotted|solid",
+                            width: 2
+                        }
                     }
                 ]
             },
