@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load bootstrap5 %}
 
 {% block title %}Vitals{% endblock %}
 
@@ -7,10 +8,77 @@
 <h1>Vitals</h1>
 <a class="btn btn-primary" href="{% url 'vitals:create' %}">Record Vital</a>
 
-{% include "bootstrap_pagination.html" with page_obj=page_obj %}
+
+<div id="charts">
+
+</div>
+
+
+<script>
+    let data = JSON.parse("{{object_list_json | escapejs}}");
+
+    let mapper = JSON.parse("{{vital_types | escapejs}}");
+
+    let result = data.map(element => {
+        return {
+            date: element.fields.date.substring(0,10),
+            type: mapper.filter(m => m[0] == element.fields.type)[0][1],
+            value: element.fields.value
+        };  
+    });
+
+    let grouping = {...Object.groupBy(result, ({type}) => type)};
+
+    console.log(data);
+    console.log(result);
+    console.log(grouping);
+    console.log(Object.values(grouping));
+    console.log(Object.entries(grouping));
+    console.log(mapper);
+
+    let charts = document.getElementById("charts");
+
+    Object.values(grouping).forEach(d => {
+        
+        let canvas = document.createElement('canvas');
+        canvas.width = 500;
+        canvas.height = 500;
+
+        charts.appendChild(canvas);
+        let ctx = canvas.getContext("2d");
+
+        let labels = d.map(f => f.date);
+        let values = d.map(f => f.value);
+        let label = d[0].type;
+
+        let chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: label,
+                        backgroundColor: "#79AEC8",
+                        borderColor: "#417690",
+                        data: values
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    text: label,
+                    display: true
+                }
+            }
+        });
+    });
+
+</script>
+
+{% bootstrap_pagination page_obj %}
 <ul>
     {% for vital in object_list %}
-        <li>{{vital.created}} {{vital.get_type_display}} {{vital.value}}</li>
+    <li>{{vital.created}} {{vital.get_type_display}} {{vital.value}}</li>
     {% endfor %}
 </ul>
 
