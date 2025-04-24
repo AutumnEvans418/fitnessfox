@@ -13,13 +13,13 @@ from django.core import serializers
 
 # Create your views here.
 class VitalIndexView(ListView, LoginRequiredMixin):
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
 
         user = self.request.user
 
-        vitals = Vital.objects.filter(user=user).order_by("-created").all()
+        vitals = Vital.objects.filter(user=user).order_by("-date").all()
 
         return vitals
     
@@ -27,7 +27,12 @@ class VitalIndexView(ListView, LoginRequiredMixin):
 
         ctx = super().get_context_data(**kwargs)
 
-        list = ctx['object_list']
+        #list = ctx['object_list']
+        user = self.request.user
+
+        list = Vital.objects.filter(user=user).order_by("-date").all()
+
+
 
         data = serializers.serialize('json', list)
 

@@ -23,7 +23,8 @@
         return {
             date: element.fields.date.substring(0,10),
             type: mapper.filter(m => m[0] == element.fields.type)[0][1],
-            value: element.fields.value
+            value: element.fields.value,
+            bpm: element.fields.type in [2,3,4]
         };  
     });
 
