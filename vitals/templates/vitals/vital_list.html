@@ -6,81 +6,62 @@
 {% block content %}
 
 <h1>Vitals</h1>
+
 <a class="btn btn-primary" href="{% url 'vitals:create' %}">Record Vital</a>
 
-
-<div id="charts">
-
-</div>
-
-
 <script>
-    let data = JSON.parse("{{object_list_json | escapejs}}");
 
-    let mapper = JSON.parse("{{vital_types | escapejs}}");
-
-    let result = data.map(element => {
-        return {
-            date: element.fields.date.substring(0,10),
-            type: mapper.filter(m => m[0] == element.fields.type)[0][1],
-            value: element.fields.value,
-            bpm: element.fields.type in [2,3,4]
-        };  
-    });
-
-    let grouping = {...Object.groupBy(result, ({type}) => type)};
-
-    console.log(data);
-    console.log(result);
-    console.log(grouping);
-    console.log(Object.values(grouping));
-    console.log(Object.entries(grouping));
-    console.log(mapper);
-
-    let charts = document.getElementById("charts");
-
-    Object.values(grouping).forEach(d => {
-        
-        let canvas = document.createElement('canvas');
-        canvas.width = 500;
-        canvas.height = 500;
-        canvas.style.width = "50%";
-
-        charts.appendChild(canvas);
+    window.CreateChart = function CreateChart(options, id) {
+        let canvas = document.getElementById(id);
         let ctx = canvas.getContext("2d");
 
-        let labels = d.map(f => f.date);
-        let values = d.map(f => f.value);
-        let label = d[0].type;
-
         let chart = new Chart(ctx, {
-            type: "line",
+            type: options.type,
             data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: label,
-                        backgroundColor: "#79AEC8",
-                        borderColor: "#417690",
-                        data: values,
-                        trendlineLinear: {
-                            style: "rgb(43 ,66 ,255, 0.3)",
-                            lineStyle: "dotted|solid",
-                            width: 2
-                        }
-                    }
-                ]
+                labels: options.labels,
+                datasets: options.data.map(element => {
+                    return {
+                        label: element.label,
+                        backgroundColor: element.color,
+                        borderColor: element.color,
+                        data: element.data,
+                        // trendlineLinear: {
+                        //     style: "rgb(43 ,66 ,255, 0.3)",
+                        //     lineStyle: "dotted|solid",
+                        //     width: 2
+                        // }
+                    };
+                }) 
             },
             options: {
-                title: {
-                    text: label,
-                    display: true
+                plugins: {
+                    title: {
+                        text: options.text,
+                        display: true
+                    }
                 }
             }
         });
-    });
-
+    }
 </script>
+
+<div class="container">
+    <div class="row">
+{% for chart in charts %}
+
+    <div class="col-4">
+        <canvas width="500" height="500" id="{{chart.name}}"  ></canvas>
+        <script>
+            CreateChart(JSON.parse("{{chart.data | escapejs}}"), "{{chart.name}}");
+        </script>
+    </div>
+
+{% endfor %}
+    </div>
+</div>
+
+
+
 
 {% bootstrap_pagination page_obj %}
 <ul>
