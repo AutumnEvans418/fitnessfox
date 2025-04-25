@@ -16,6 +16,8 @@ from typing import Callable, Iterable, TypeVar, Dict, List
 
 import jsonpickle
 
+from .forms import BloodForm
+
 T = TypeVar('T')
 K = TypeVar('K')
 
@@ -168,3 +170,18 @@ class VitalCreateView(CreateView, LoginRequiredMixin):
         form.instance.user = self.request.user
 
         return super().form_valid(form)
+    
+class BloodCreateView(FormView):
+    form_class = BloodForm
+    success_url = reverse_lazy('vitals:index')
+    template_name = "vitals/create.html"
+
+    def form_valid(self, form):
+
+        user = self.request.user
+
+        valid = super().form_valid(form)
+
+        form.save(user)
+
+        return valid
