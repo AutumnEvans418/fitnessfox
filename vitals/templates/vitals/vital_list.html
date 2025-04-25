@@ -67,7 +67,10 @@
 {% bootstrap_pagination page_obj %}
 <ul>
     {% for vital in object_list %}
-    <li>{{vital.created}} {{vital.get_type_display}} {{vital.value}}</li>
+        <li>{{vital.date}} {{vital.get_type_display}} {{vital.value}} 
+            <a class="btn btn-primary" href="{% url 'vitals:update' vital.id %}">Update</a>
+
+        </li>
     {% endfor %}
 </ul>
 

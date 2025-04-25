@@ -171,6 +171,13 @@ class VitalCreateView(CreateView, LoginRequiredMixin):
 
         return super().form_valid(form)
     
+class VitalUpdateView(UpdateView, LoginRequiredMixin):
+    success_url = reverse_lazy('vitals:index')
+    model = Vital
+    fields = ['date', 'type', 'value']
+    template_name = "vitals/create.html"
+    
+    
 class BloodCreateView(FormView):
     form_class = BloodForm
     success_url = reverse_lazy('vitals:index')
