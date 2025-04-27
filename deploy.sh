@@ -1,0 +1,1 @@
+az webapp up --runtime PYTHON:3.11 --sku F1 --logs --name FitnessFox
