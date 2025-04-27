@@ -38,6 +38,11 @@
                     <li class="nav-item">
                         <a class="nav-link link-light" href="/meals">Meals</a>
                     </li>
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link link-light" href="/admin">Admin</a>
+                    </li>
+                    {% endif %}
                 </ul>
 
                 {% if user.is_authenticated %}

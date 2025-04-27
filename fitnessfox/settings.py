@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vitals.apps.VitalsConfig',
+    'vitals',
     'accounts',
     'bootstrap5',
-    'rest_framework'
+    'rest_framework',
+    'meals'
 ]
 
 MIDDLEWARE = [

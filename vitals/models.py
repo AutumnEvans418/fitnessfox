@@ -23,4 +23,7 @@ class Vital(TSModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     type = models.IntegerField(choices=VITAL_CHOICES, blank=False, null=False)
     value = models.FloatField(null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.date} {self.user} {self.get_type_display()} {self.value}"
     
