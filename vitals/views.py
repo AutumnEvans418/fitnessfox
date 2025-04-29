@@ -6,8 +6,7 @@ from django.urls import reverse_lazy
 
 from vitals.models import Vital
 
-from rest_framework.views import APIView 
-from rest_framework.response import Response 
+
 from json import dumps 
 from django.core import serializers
 
