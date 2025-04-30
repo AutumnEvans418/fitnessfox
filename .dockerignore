@@ -3,7 +3,5 @@ db
 static/
 venv
 .vscode/
-.env
 db.sqlite3
 fitness
-build.zip

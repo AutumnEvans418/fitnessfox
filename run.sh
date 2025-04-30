@@ -1,6 +1,7 @@
-#!/bin/bash
-apt-get update
-apt-get -y install apache2 apache2-utils apache2-dev
-pip install -r requirements.txt
+pip install --upgrade pip
+pip install --no-cache-dir -r requirements.txt
+
+#python manage.py migrate
+#python manage.py createsuperuser --noinput
 
 python manage.py runserver
